@@ -39,12 +39,15 @@ options = vision.HandLandmarkerOptions(
 landmarker = vision.HandLandmarker.create_from_options(options)
 
 cap = cv2.VideoCapture(0)
+if not cap.isOpened():
+    raise SystemExit("No webcam found. Connect a camera and try again.")
 frame_timestamp_ms = 0
 
 while True:
     success, img = cap.read()
     if not success:
-        continue
+        print("Could not read a frame from the webcam; stopping.")
+        break
     img = cv2.flip(img, 1)
 
     imgRGB = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
